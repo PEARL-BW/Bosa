@@ -1,4 +1,5 @@
 function updateWeatherData(response){
+    console.groupCollapsed(response.data);
     //console.log(response.data.temperature.current);
     //console.log(response.data.condition.description);
     let temperatureElement = document.querySelector("#temp");
@@ -18,7 +19,7 @@ function updateWeatherData(response){
     windSpeedElement.innerHTML = `${response.data.wind.speed} km\h`;
     timeElement.innerHTML = formatDate(date);
     //if not using the function formatDate^^^^timeElement.innerHTML = `${date.getDay()} ${date.getHours()}:${date.getMinutes()}`;
-    iconElement.innerHTML = `<img src="${response.data.condition.icon_url}" class="weather-app-icon" />`;
+    iconElement.innerHTML = `<img src="${response.data.condition.icon_url}" class="bosa-app-icon" />`;
    
 }
 function formatDate(date) {

@@ -52,4 +52,24 @@ function handleSearchSubmit(event){
 let searchFormElement = document.querySelector("#search-form");
 searchFormElement.addEventListener("submit", handleSearchSubmit);
 
+function displayForecast(){
+    let days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri"]; //array of the days
+    let forecastHtml = "";
+    days.forEach(function(day){ //loop through days 1 at a time
+        forecastHtml = forecastHtml + `
+          <div class="bosa-app-forecast-day">
+              <div class="bosa-app-forecast-date">${day}</div>
+              <div class="bosa-app-forecast-icon">🌥️</div>
+              <div class="bosa-app-forecast-temperatures">
+                  <div class="bosa-app-forecast-temp"><strong>15°</strong></div>
+                  <div class="bosa-app-forecast-temp">9°</div>
+          </div>
+      </div>`
+    });
+
+    let forecastElement = document.querySelector("#forecast");
+    forecastElement.innerHTML = forecastHtml;
+}
+
 searchCity("Francistown");
+displayForecast();

@@ -1,5 +1,5 @@
 function updateWeatherData(response){
-    console.groupCollapsed(response.data);
+    //console.groupCollapsed(response.data);
     //console.log(response.data.temperature.current);
     //console.log(response.data.condition.description);
     let temperatureElement = document.querySelector("#temp");
@@ -20,8 +20,10 @@ function updateWeatherData(response){
     timeElement.innerHTML = formatDate(date);
     //if not using the function formatDate^^^^timeElement.innerHTML = `${date.getDay()} ${date.getHours()}:${date.getMinutes()}`;
     iconElement.innerHTML = `<img src="${response.data.condition.icon_url}" class="bosa-app-icon" />`;
-   
+
+    getForecast(response.data.city);  
 }
+
 function formatDate(date) {
   let minutes = date.getMinutes();
   let hours = date.getHours();
@@ -36,7 +38,7 @@ function formatDate(date) {
 }
 
 function searchCity(city){
-let apiKey =  "36531e52b48ctcf4b71004a520boc960";
+let apiKey =  "b2a5adcct04b33178913oc335f405433";
 let apiUrl = `https://api.shecodes.io/weather/v1/current?query=${city}&key=${apiKey}&units=metric`;
 axios.get(apiUrl).then(updateWeatherData);
 }
@@ -44,33 +46,42 @@ axios.get(apiUrl).then(updateWeatherData);
 function handleSearchSubmit(event){
     event.preventDefault();
     let searchInput = document.querySelector("#search-form-input");
-    let cityElement = document.querySelector("#city");
-    cityElement.innerHTML = searchInput.value; 
+   // let cityElement = document.querySelector("#city");
+    //cityElement.innerHTML = searchInput.value; 
     searchCity(searchInput.value);
 }
 
 function getForecast(city){
-  let apiKey = "36531e52b48ctcf4b71004a520boc960";
-  let apiUrl= `https://api.shecodes.io/weather/v1/forecast?query=${city}&key=${apiUrl}& units=metric`;
-  console.log(apiUrl);
+  let apiKey = "b2a5adcct04b33178913oc335f405433";
+  let apiUrl= `https://api.shecodes.io/weather/v1/forecast?query=${city}&key=${apiKey}&units=metric`;
+  axios(apiUrl).then(displayForecast);
+}
+
+function formatDay(timestamp){
+  let date = new Date(timestamp * 1000);
+  let days = ["Sun",  "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+  return days[date.getDay()];
 }
 
 let searchFormElement = document.querySelector("#search-form");
 searchFormElement.addEventListener("submit", handleSearchSubmit);
 
-function displayForecast(){
-    let days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri"]; //array of the days
+function displayForecast(response){
+    
+    //let days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri"]; //array of the days
     let forecastHtml = "";
-    days.forEach(function(day){ //loop through days 1 at a time
-        forecastHtml = forecastHtml + `
+    response.data.daily.forEach(function(day, index){ //loop through days 1 at a time
+      if(index < 6){  
+      forecastHtml = forecastHtml + `
           <div class="bosa-app-forecast-day">
-              <div class="bosa-app-forecast-date">${day}</div>
-              <div class="bosa-app-forecast-icon">🌥️</div>
+              <div class="bosa-app-forecast-date">${formatDay(day.time)}</div>
+              <img src="${day.condition.icon_url}" class="bosa-app-forecast-icon"/>
               <div class="bosa-app-forecast-temperatures">
-                  <div class="bosa-app-forecast-temp"><strong>15°</strong></div>
-                  <div class="bosa-app-forecast-temp">9°</div>
+                  <div class="bosa-app-forecast-temp"><strong>${Math.round(day.temperature.maximum)}°</strong></div>
+                  <div class="bosa-app-forecast-temp">${Math.round(day.temperature.minimum)}°</div>
           </div>
-      </div>`
+      </div>`;
+      }
     });
 
     let forecastElement = document.querySelector("#forecast");
@@ -78,5 +89,4 @@ function displayForecast(){
 }
 
 searchCity("Francistown");
-displayForecast();
-getForecast("Paris");
+

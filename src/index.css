@@ -87,8 +87,11 @@ main{
     margin-bottom:10px;
 }
 .bosa-app-forecast-icon{
-    font-size:38px;
+    width:88px;
     text-align: center;
+    height:88px;
+    display:block;
+    margin: 0 auto;
 }
 .bosa-app-forecast-temperatures{
     text-align: center;

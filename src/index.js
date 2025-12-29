@@ -36,7 +36,7 @@ function formatDate(date) {
 }
 
 function searchCity(city){
-let apiKey =  "b2a5adcct04b33178913oc335f405433";
+let apiKey =  "36531e52b48ctcf4b71004a520boc960";
 let apiUrl = `https://api.shecodes.io/weather/v1/current?query=${city}&key=${apiKey}&units=metric`;
 axios.get(apiUrl).then(updateWeatherData);
 }
@@ -47,6 +47,12 @@ function handleSearchSubmit(event){
     let cityElement = document.querySelector("#city");
     cityElement.innerHTML = searchInput.value; 
     searchCity(searchInput.value);
+}
+
+function getForecast(city){
+  let apiKey = "36531e52b48ctcf4b71004a520boc960";
+  let apiUrl= `https://api.shecodes.io/weather/v1/forecast?query=${city}&key=${apiUrl}& units=metric`;
+  console.log(apiUrl);
 }
 
 let searchFormElement = document.querySelector("#search-form");
@@ -73,3 +79,4 @@ function displayForecast(){
 
 searchCity("Francistown");
 displayForecast();
+getForecast("Paris");
